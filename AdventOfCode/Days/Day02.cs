@@ -1,9 +1,9 @@
-﻿
-namespace AdventOfCode;
+﻿namespace AdventOfCode;
 
 public class Day02 : BaseDay
 {
     private readonly List<string[]> _input;
+
     public Day02()
     {
         _input = File.ReadAllText(InputFilePath)
@@ -31,9 +31,8 @@ public class Day02 : BaseDay
                     var cube = cubeCount.Split();
                     var count = int.Parse(cube[0]);
                     var colour = cube[1];
-                    if ((colour == "red" && count <= 12) || (colour == "green" && count <= 13) || (colour == "blue" && count <= 14))
-                        continue;
-                    else
+
+                    if ((colour != "red" || count > 12) && (colour != "green" || count > 13) && (colour != "blue" || count > 14))
                     {
                         invalidSet = true;
                         break;
