@@ -20,8 +20,8 @@ internal class Day04 : BaseDay
 
         foreach (var card in _input)
         {
-            var numbersOnCard = card[0].Split(' ').Where(x => x != "").Select(int.Parse).Where(x => x != 0).ToList();
-            var ourNumbers = card[1].Split(' ').Where(x => x != "").Select(int.Parse).Where(x => x != 0).ToList();
+            var numbersOnCard = card[0].Split(' ').Where(x => x != "").Select(int.Parse).ToList();
+            var ourNumbers = card[1].Split(' ').Where(x => x != "").Select(int.Parse).ToList();
 
             var winningNumbers = numbersOnCard.Intersect(ourNumbers).ToList();
 
@@ -40,8 +40,8 @@ internal class Day04 : BaseDay
 
         foreach (var card in cards)
         {
-            var numbersOnCard = _input[card.Key - 1][0].Split(' ').Where(x => x != "").Select(int.Parse).Where(x => x != 0).ToList();
-            var ourNumbers = _input[card.Key - 1][1].Split(' ').Where(x => x != "").Select(int.Parse).Where(x => x != 0).ToList();
+            var numbersOnCard = _input[card.Key - 1][0].Split(' ').Where(x => x != "").Select(int.Parse).ToList();
+            var ourNumbers = _input[card.Key - 1][1].Split(' ').Where(x => x != "").Select(int.Parse).ToList();
 
             var winningNumbers = numbersOnCard.Intersect(ourNumbers).Count();
 
