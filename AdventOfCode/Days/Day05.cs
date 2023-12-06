@@ -75,19 +75,12 @@ public class Day05 : BaseDay
 
     private static long GetMappedValue(long sourceValue, List<List<long>> map)
     {
-        var mappedValue = sourceValue;
-
         foreach (var values in map)
         {
             if (sourceValue >= values[1] && sourceValue <= values[1] + values[2])
-            {
-                mappedValue = sourceValue + (values[0] - values[1]);
-                break;
-            }
-            else
-                continue;
+                return sourceValue + (values[0] - values[1]);
         }
 
-        return mappedValue;
+        return sourceValue;
     }
 }
