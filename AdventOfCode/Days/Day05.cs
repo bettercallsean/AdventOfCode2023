@@ -3,7 +3,7 @@
 public class Day05 : BaseDay
 {
     private readonly List<long> _seeds;
-    private readonly Dictionary<long, List<List<long>>> _input;
+    private readonly List<List<List<long>>> _input;
 
     public Day05()
     {
@@ -19,7 +19,7 @@ public class Day05 : BaseDay
 
         for (var i = 1; i < almanac.Length; i++)
         {
-            _input.Add(i, almanac[i]
+            _input.Add(almanac[i]
                 .Split(":" + Environment.NewLine)[1]
                 .Split(Environment.NewLine)
                 .Select(x => x.Split(' ').Select(long.Parse).ToList())
@@ -37,7 +37,7 @@ public class Day05 : BaseDay
 
             foreach (var map in _input)
             {
-                currentMapValue = GetMappedValue(currentMapValue, map.Value);
+                currentMapValue = GetMappedValue(currentMapValue, map);
             }
 
             if (currentMapValue < lowestLocationNumber)
@@ -63,7 +63,7 @@ public class Day05 : BaseDay
                 var currentMapValue = j;
 
                 foreach (var map in _input)
-                    currentMapValue = GetMappedValue(currentMapValue, map.Value);
+                    currentMapValue = GetMappedValue(currentMapValue, map);
 
                 if (currentMapValue < lowestLocationNumber)
                     lowestLocationNumber = currentMapValue;
