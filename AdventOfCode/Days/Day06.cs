@@ -1,4 +1,5 @@
 ﻿namespace AdventOfCode.Days;
+
 internal class Day06 : BaseDay
 {
     private readonly List<int> _raceTime;
@@ -43,7 +44,7 @@ internal class Day06 : BaseDay
                     chargeTime++;
             }
 
-            waysToWinRace.Add((raceTime - chargeTime + 1) - chargeTime);
+            waysToWinRace.Add(raceTime - (chargeTime * 2) + 1);
         }
 
         return new(waysToWinRace.Aggregate((a, b) => a * b).ToString());
@@ -51,8 +52,8 @@ internal class Day06 : BaseDay
 
     public override ValueTask<string> Solve_2()
     {
-        var raceTime = int.Parse(string.Join("", _raceTime));
-        var raceDistance = long.Parse(string.Join("", _raceDistance));
+        var raceTime = int.Parse(string.Join(string.Empty, _raceTime));
+        var raceDistance = long.Parse(string.Join(string.Empty, _raceDistance));
 
         long lowestChargeTime = 0;
         long highestChargeTime = raceTime / 2;
@@ -75,6 +76,6 @@ internal class Day06 : BaseDay
                 lowestChargeTime = chargeTime + 1;
         }
 
-        return new(((raceTime - lastChargeTime + 1) - lastChargeTime).ToString());
+        return new((raceTime - (lastChargeTime * 2) + 1).ToString());
     }
 }
