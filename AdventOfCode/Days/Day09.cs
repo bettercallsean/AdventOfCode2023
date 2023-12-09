@@ -11,39 +11,7 @@ public class Day09 : BaseDay
 
     public override ValueTask<string> Solve_1()
     {
-        var score = 0L;
-
-        foreach (var item in _input)
-        {
-            var dataHistory = new List<List<long>>
-            {
-                item
-            };
-
-            var currentLine = item;
-
-            while (!currentLine.All(x => x == 0))
-            {
-                var newLine = new List<long>();
-
-                for (int i = 0; i < currentLine.Count - 1; i++)
-                {
-                    newLine.Add(currentLine[i + 1] - currentLine[i]);
-                }
-
-                dataHistory.Add(newLine);
-                currentLine = newLine;
-            }
-
-            dataHistory[^1].Add(0);
-
-            for (var i = dataHistory.Count - 2; i >= 0; i--)
-            {
-                dataHistory[i].Add(dataHistory[i][^1] + dataHistory[i + 1][^1]);
-            }
-
-            score += dataHistory[0][^1];
-        }
+        var score = CalculateScore(false);
 
         return new(score.ToString());
     }
@@ -52,41 +20,59 @@ public class Day09 : BaseDay
     {
         SetupInput();
 
+        var score = CalculateScore(true);
+
+        return new(score.ToString());
+    }
+
+    private long CalculateScore(bool reverse)
+    {
         var score = 0L;
 
         foreach (var item in _input.ToList())
         {
-            var dataHistory = new List<List<long>>
+            var dataHistory = CreateDatahistory(item);
+
+            dataHistory[^1].Insert(reverse ? 0 : dataHistory[^1].Count, 0);
+
+            for (var i = dataHistory.Count - 2; i >= 0; i--)
+            {
+                var valueToInsert = reverse
+                    ? dataHistory[i][0] - dataHistory[i + 1][0]
+                    : dataHistory[i][^1] + dataHistory[i + 1][^1];
+
+                dataHistory[i].Insert(reverse ? 0 : dataHistory[i].Count, valueToInsert);
+            }
+
+            score += dataHistory[0][reverse ? 0 : ^1];
+        }
+
+        return score;
+    }
+
+    private static List<List<long>> CreateDatahistory(List<long> item)
+    {
+        var dataHistory = new List<List<long>>
             {
                 item
             };
 
-            var currentLine = item;
+        var currentLine = item;
 
-            while (!currentLine.All(x => x == 0))
+        while (!currentLine.All(x => x == 0))
+        {
+            var newLine = new List<long>();
+
+            for (int i = 0; i < currentLine.Count - 1; i++)
             {
-                var newLine = new List<long>();
-
-                for (int i = 0; i < currentLine.Count - 1; i++)
-                {
-                    newLine.Add(currentLine[i + 1] - currentLine[i]);
-                }
-
-                dataHistory.Add(newLine);
-                currentLine = newLine;
+                newLine.Add(currentLine[i + 1] - currentLine[i]);
             }
 
-            dataHistory[^1].Insert(0, 0);
-
-            for (var i = dataHistory.Count - 2; i >= 0; i--)
-            {
-                dataHistory[i].Insert(0, dataHistory[i][0] - dataHistory[i + 1][0]);
-            }
-
-            score += dataHistory[0][0];
+            dataHistory.Add(newLine);
+            currentLine = newLine;
         }
 
-        return new(score.ToString());
+        return dataHistory;
     }
 
     private void SetupInput()
