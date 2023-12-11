@@ -66,4 +66,14 @@ public static class ArrayHelper
 
         return surroundingCoordinates.Where(coordinate => IsValidCoordinate(coordinate.X, coordinate.Y, array)).Select(coordinate => (coordinate.X, coordinate.Y));
     }
+
+    public static IEnumerable<(int, int)> GetSurroundingCompassValues<T>(int x, int y, T[][] array)
+    {
+        var surroundingCoordinates = new List<(int X, int Y)>
+        {
+            (x - 1, y), (x, y - 1), (x , y + 1), (x + 1, y)
+        };
+
+        return surroundingCoordinates.Where(coordinate => IsValidCoordinate(coordinate.X, coordinate.Y, array)).Select(coordinate => (coordinate.X, coordinate.Y));
+    }
 }
