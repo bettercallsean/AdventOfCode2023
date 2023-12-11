@@ -2,6 +2,8 @@
 
 public static class ArrayHelper
 {
+    private const string DebugTextFilePath = "debug.txt";
+
     public static bool IsValidCoordinate<T>(int x, int y, T[][] array)
     {
         return !(x < 0 || y < 0 || x > array.Length - 1 || y > array[0].Length - 1);
@@ -75,5 +77,20 @@ public static class ArrayHelper
         };
 
         return surroundingCoordinates.Where(coordinate => IsValidCoordinate(coordinate.X, coordinate.Y, array)).Select(coordinate => (coordinate.X, coordinate.Y));
+    }
+
+    public static void CreateArrayTextFile<T>(T[][] array)
+    {
+        File.WriteAllText(DebugTextFilePath, string.Empty);
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            for (int j = 0; j < array[0].Length; j++)
+            {
+                File.AppendAllText(DebugTextFilePath, $"{array[i][j]}");
+            }
+
+            File.AppendAllText(DebugTextFilePath, Environment.NewLine);
+        }
     }
 }
