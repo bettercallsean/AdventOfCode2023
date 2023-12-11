@@ -107,14 +107,21 @@ internal class Day10 : BaseDay
 
                 while (xCoordinate <= horizontalAxis.Last().Item2)
                 {
-                    if (_loop.Contains((horizontalAxis.Key, xCoordinate)) && _loopDirection[horizontalAxis.Key][xCoordinate] != lastLoopDirection)
+                    if (_loop.Contains((horizontalAxis.Key, xCoordinate)))
                     {
-                        if (_loopDirection[horizontalAxis.Key][xCoordinate] == '^')
-                            windingNumber--;
-                        else if (_loopDirection[horizontalAxis.Key][xCoordinate] == 'v')
-                            windingNumber++;
-
-                        lastLoopDirection = _loopDirection[horizontalAxis.Key][xCoordinate];
+                        if (_loopDirection[horizontalAxis.Key][xCoordinate] != lastLoopDirection)
+                        {
+                            if (_loopDirection[horizontalAxis.Key][xCoordinate] == '^')
+                            {
+                                windingNumber--;
+                                lastLoopDirection = _loopDirection[horizontalAxis.Key][xCoordinate];
+                            }
+                            else if (_loopDirection[horizontalAxis.Key][xCoordinate] == 'v')
+                            {
+                                windingNumber++;
+                                lastLoopDirection = _loopDirection[horizontalAxis.Key][xCoordinate];
+                            }
+                        }
                     }
 
                     xCoordinate++;
