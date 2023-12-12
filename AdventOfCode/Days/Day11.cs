@@ -5,9 +5,8 @@ namespace AdventOfCode.Days;
 public class Day11 : BaseDay
 {
     private readonly List<(int, int)> _galaxies;
-
-    private Dictionary<int, int> _columnOffsets;
-    private Dictionary<int, int> _rowOffsets;
+    private readonly Dictionary<int, int> _columnOffsets;
+    private readonly Dictionary<int, int> _rowOffsets;
 
     public Day11()
     {
@@ -57,16 +56,16 @@ public class Day11 : BaseDay
         return new(score.ToString());
     }
 
-    private static Dictionary<int, int> CalculateOffsets(List<List<char>> input, List<int> emptyRows)
+    private static Dictionary<int, int> CalculateOffsets(List<List<char>> input, List<int> emptyAxisNumbers)
     {
         var offset = 1;
         var offsets = Enumerable.Range(0, input.Count).ToDictionary(x => x, x => 0);
 
         for (var i = 0; i < offsets.Count; i++)
         {
-            if (i <= emptyRows[offset - 1])
+            if (i <= emptyAxisNumbers[offset - 1])
                 continue;
-            else if (offset < emptyRows.Count && i == emptyRows[offset])
+            else if (offset < emptyAxisNumbers.Count && i == emptyAxisNumbers[offset])
                 offset++;
 
             offsets[i] += offset;
