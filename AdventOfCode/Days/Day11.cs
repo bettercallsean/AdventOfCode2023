@@ -1,6 +1,4 @@
 ﻿using System.Data;
-using AdventOfCode.Utilities;
-using AdventOfCode.Utilities.Helpers;
 
 namespace AdventOfCode.Days;
 
@@ -38,8 +36,8 @@ public class Day11 : BaseDay
                 emptyRows.Add(i);
         }
 
-        CalculateOffsets(input, emptyRows, emptyColumns);
-
+        _rowOffsets = CalculateOffsets(input, emptyRows);
+        _columnOffsets = CalculateOffsets(input, emptyColumns);
         _galaxies = galaxies;
     }
 
@@ -59,33 +57,22 @@ public class Day11 : BaseDay
         return new(score.ToString());
     }
 
-    private void CalculateOffsets(List<List<char>> input, List<int> emptyRows, List<int> emptyColumns)
+    private static Dictionary<int, int> CalculateOffsets(List<List<char>> input, List<int> emptyRows)
     {
-        var rowOffset = 1;
-        _rowOffsets = Enumerable.Range(0, input.Count).ToDictionary(x => x, x => 0);
+        var offset = 1;
+        var offsets = Enumerable.Range(0, input.Count).ToDictionary(x => x, x => 0);
 
-        for (var i = 0; i < _rowOffsets.Count; i++)
+        for (var i = 0; i < offsets.Count; i++)
         {
-            if (i <= emptyRows[rowOffset - 1])
+            if (i <= emptyRows[offset - 1])
                 continue;
-            else if (rowOffset < emptyRows.Count && i == emptyRows[rowOffset])
-                rowOffset++;
+            else if (offset < emptyRows.Count && i == emptyRows[offset])
+                offset++;
 
-            _rowOffsets[i] += rowOffset;
+            offsets[i] += offset;
         }
 
-        var columnOffset = 1;
-        _columnOffsets = Enumerable.Range(0, input[0].Count).ToDictionary(x => x, x => 0);
-
-        for (var i = 0; i < _columnOffsets.Count; i++)
-        {
-            if (i <= emptyColumns[columnOffset - 1])
-                continue;
-            else if (columnOffset < emptyColumns.Count && i == emptyColumns[columnOffset])
-                columnOffset++;
-
-            _columnOffsets[i] += columnOffset;
-        }
+        return offsets;
     }
 
     private long GetShortestDistanceScore(int expansionScale)
